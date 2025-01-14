@@ -2,25 +2,26 @@ package palette
 
 import (
 	"dithering/colorspace"
+	"dithering/colorspace/cie"
 	"math"
 )
 
 type ColorPalette struct {
-	xyz []colorspace.XYZ
+	xyz []cie.XYZ
 }
 
 func (c *ColorPalette) AddColor(col colorspace.Color) {
-	c.xyz = append(c.xyz, col.ToXYZ())
+	c.xyz = append(c.xyz, col.XYZ())
 }
 
-func dist(a, b colorspace.XYZ) float64 {
+func Dist(a, b cie.XYZ) float64 {
 	return math.Pow(a.X-b.X, 2) +
 		math.Pow(a.Y-b.Y, 2) +
 		math.Pow(a.Z-b.Z, 2)
 }
 
-func (c *ColorPalette) NearestColor(col colorspace.Color) colorspace.XYZ {
-	conv := col.ToXYZ()
+func (c *ColorPalette) NearestColor(col colorspace.Color, dist func(a, b cie.XYZ) float64) cie.XYZ {
+	conv := col.XYZ()
 
 	minDistance := math.MaxFloat64
 	nearestColor := conv

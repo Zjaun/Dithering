@@ -1,4 +1,4 @@
-package colorspace
+package rgb
 
 import "math"
 
@@ -10,11 +10,11 @@ type linearRGB struct {
 	R, G, B float64
 }
 
-type StandardRGB struct {
+type SRGB struct {
 	R, G, B int
 }
 
-func (s *StandardRGB) normalize() normalizedSRGB {
+func (s *SRGB) normalize() normalizedSRGB {
 	return normalizedSRGB{
 		float64(s.R) / 255.0,
 		float64(s.G) / 255.0,
@@ -42,7 +42,7 @@ func nonlinear(linear float64) int {
 	return int(value)
 }
 
-func (s *StandardRGB) linear() linearRGB {
+func (s *SRGB) linear() linearRGB {
 	normalized := s.normalize()
 	return linearRGB{
 		linear(normalized.R),
@@ -51,8 +51,8 @@ func (s *StandardRGB) linear() linearRGB {
 	}
 }
 
-func (l *linearRGB) standard() StandardRGB {
-	return StandardRGB{
+func (l *linearRGB) standard() SRGB {
+	return SRGB{
 		nonlinear(l.R),
 		nonlinear(l.G),
 		nonlinear(l.B),
