@@ -14,11 +14,9 @@ func (c *ColorPalette) AddColor(col colorspace.Color) {
 	c.xyz = append(c.xyz, col.XYZ())
 }
 
-func Dist(a, b cie.XYZ) float64 {
-	return math.Pow(a.X-b.X, 2) +
-		math.Pow(a.Y-b.Y, 2) +
-		math.Pow(a.Z-b.Z, 2)
-}
+//func Dist(a, b colorspace.Color, fx Distance) float64 {
+//
+//}
 
 func (c *ColorPalette) NearestColor(col colorspace.Color, dist func(a, b cie.XYZ) float64) cie.XYZ {
 	conv := col.XYZ()
